@@ -16,3 +16,10 @@ plugin is required to be installed.
 oc project openshift
 oc new-build https://github.com/stewartshea/cicd-tools --context-dir=jenkins/openshift/jenkins-dynamic-plugins --to=jenkins:ext-plugins -e PLUGIN_LIST=pipeline-npm --name=jenkins-ext-plugins
 ```
+
+If you want all standard images running `latest` to get this new image, tag 
+the new image as latest: 
+
+```
+oc tag jenkins:ext-plugins jenkins:latest
+```
