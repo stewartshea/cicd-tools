@@ -8,7 +8,7 @@ if [ $# -eq 0 ]; then
 fi
 
 plugin_dir=/var/lib/jenkins/plugins
-file_owner=default.root
+file_owner=default:root
 
 mkdir -p /var/lib/jenkins/plugins
 
