@@ -56,6 +56,6 @@ done
 echo "fixing permissions"
 
 #chown ${file_owner} ${plugin_dir} -R
-chomd 777 ${plugin_dir} -R
+chmod 777 ${plugin_dir} -R
 
 echo "all done"
