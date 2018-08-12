@@ -1,0 +1,51 @@
+podTemplate(
+label: 'nodejs8',
+cloud: 'openshift',
+containers: [
+    containerTemplate(name: 'jnlp',
+                    image: 'docker.io/openshift/jenkins-agent-nodejs-8-centos7',
+                    resourceLimitMemory: '512Mi',
+                    args: '${computer.jnlpmac} ${computer.name}',
+                    envVars: [
+                        envVar(key: 'JNLP_MAX_HEAP_UPPER_BOUND_MB', value: '64') ])
+    ]
+    )
+{
+
+    node('nodejs8') {
+    container('jnlp')
+    {
+        stage('checkout') {
+            sh '''ls -la ~
+                            '''        
+        }
+        stage ('npm install'){
+            withNPM(npmrcConfig: 'npmjs') {
+                sh 'npm install'
+        }
+        }
+        stage ('npm test'){
+            withNPM(npmrcConfig: 'npmjs') {
+                sh 'echo "TODO npm run test"'
+        }
+        }
+        stage ('npm build'){
+             withNPM(npmrcConfig: 'npmjs') {
+                sh '''npm run build
+                ls -l build
+                '''
+        }
+        }
+   stage('deploy develop branch') {
+      when { branch 'master' }
+                sh '''echo 'Deploying...'
+               just doing some deployments, nothing to see here. 
+                '''
+    }
+
+    }
+    }
+}
+
+
+
