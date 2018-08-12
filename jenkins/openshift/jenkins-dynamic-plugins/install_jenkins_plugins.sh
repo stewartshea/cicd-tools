@@ -8,7 +8,7 @@ if [ $# -eq 0 ]; then
 fi
 
 plugin_dir=/var/lib/jenkins/plugins
-file_owner=default:root
+file_owner=jenkins.jenkins
 
 mkdir -p /var/lib/jenkins/plugins
 
@@ -55,6 +55,7 @@ done
 
 echo "fixing permissions"
 
-chown ${file_owner} ${plugin_dir} -R
+#chown ${file_owner} ${plugin_dir} -R
+chomd 777 ${plugin_dir} -R
 
 echo "all done"
