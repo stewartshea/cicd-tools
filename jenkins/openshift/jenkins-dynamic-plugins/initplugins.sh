@@ -4,13 +4,14 @@
 #
 ## CREDIT: https://raw.githubusercontent.com/blacklabelops/jenkins/master/imagescripts/initplugins.sh
 
-export JENKINS_PLUGINS=$PLUGIN_LIST
+export PLUGIN_LIST="$PLUGIN_LIST" "$INSTALL_PLUGINS"
+
 jenkins_plugins=""
 
 DEFAULT_PLUGINS="docker-workflow ant build-timeout credentials-binding email-ext github-organization-folder gradle workflow-aggregator ssh-slaves subversion timestamper ws-cleanup"
 
 if [ -n "${JENKINS_PLUGINS}" ]; then
-  JENKINS_PLUGINS=$JENKINS_PLUGINS" "$DEFAULT_PLUGINS
+  JENKINS_PLUGINS=$JENKINS_PLUGINS" "$DEFAULT_PLUGINS "$PLUGIN_LIST"
 else
   JENKINS_PLUGINS=$DEFAULT_PLUGINS
 fi
