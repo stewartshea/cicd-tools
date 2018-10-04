@@ -1,14 +1,10 @@
-import com.cloudbees.jenkins.plugins.sshcredentials.impl.*
-import com.cloudbees.plugins.credentials.*
-import com.cloudbees.plugins.credentials.common.*
+
+import hudson.model.*
+import jenkins.model.*
+import com.cloudbees.plugins.credentials.CredentialsScope
 import com.cloudbees.plugins.credentials.domains.Domain
-import com.cloudbees.plugins.credentials.impl.*
-import hudson.util.Secret
-import java.nio.file.Files
-import jenkins.model.Jenkins
-import net.sf.json.JSONObject
-import org.jenkinsci.plugins.plaincredentials.impl.*
- 
+import com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl
+
 // hacky env workaround due to issues with the the secret env variables
 def token_out = new StringBuffer(), token_err = new StringBuffer()
 def token = "env".execute() | "grep SLACK_token".execute() | ['awk', '-F', "=",  '{ print $2 }'].execute()
@@ -28,67 +24,10 @@ team_domain.consumeProcessOutput(team_domain_out, team_domain_err)
 team_domain.waitForOrKill(1000)
 team_domain_out=team_domain_out.toString()
 
-// get envVars (ran into issues here, used the above hack)
-// def env=System.getenv()
-// slack_token=env['SLACK_token']
-// slack_base_url=env['SLACK_base_url']
-// slack_webhook_url=env['SLACK_webhook_url']
 
-// get jenkins slack URL
-def route_out = new StringBuffer(), route_err = new StringBuffer()
-def oc_route = "oc get route".execute() | "grep jenkins".execute() | ['awk', '{ print $2 }'].execute()
-oc_route.consumeProcessOutput(route_out, route_err)
-oc_route.waitForOrKill(1000)
-def route = "http://$route_out" 
-
-// parameters
-// def slackCredentialParameters = [
-//   description:  'Slack',
-//   id:           'slack-token',
-//   secret:       "$token_out"
-// ]
- 
-def slackParameters = [
-  slackBaseUrl:             base_url_out,
-  slackBotUser:             'false',
-  slackBuildServerUrl:      route_out,
- // slackRoom:                '#jenkins',
-  slackSendAs:              'Jenkins',
-  slackTeamDomain:          team_domain_out,
-  slackToken:               token_out,
-  //slackTokenCredentialId:   ''
-]
- 
-// get Jenkins instance
-Jenkins jenkins = Jenkins.getInstance()
- 
-// get credentials domain
-def domain = Domain.global()
- 
-// get credentials store
-def store = jenkins.getExtensionList('com.cloudbees.plugins.credentials.SystemCredentialsProvider')[0].getStore()
- 
-// get Slack plugin
-def slack = jenkins.getExtensionList(jenkins.plugins.slack.SlackNotifier.DescriptorImpl.class)[0]
- 
-// define secret
-// def secretText = new StringCredentialsImpl(
-//   CredentialsScope.GLOBAL,
-//   slackCredentialParameters.id,
-//   slackCredentialParameters.description,
-//   Secret.fromString(slackCredentialParameters.secret)
-// )
- 
-// define form and request
-JSONObject formData = ['slack': ['tokenCredentialId': 'slack-token']] as JSONObject
-def request = [getParameter: { name -> slackParameters[name] }] as org.kohsuke.stapler.StaplerRequest
- 
-// add credential to Jenkins credentials store
-//store.addCredentials(domain, secretText)
- 
-// add Slack configuration to Jenkins
-slack.configure(request, formData)
- 
-// save to disk
+jenkins = jenkins.model.Jenkins.getInstance()
+slack = jenkins.getDescriptorByType(jenkins.plugins.slack.SlackNotifier.DescriptorImpl)
+slack.teamDomain = "$team_domain_out"
+slack.token = "$token_out"
+slack.sendAs = "CHEF CI"
 slack.save()
-jenkins.save()
