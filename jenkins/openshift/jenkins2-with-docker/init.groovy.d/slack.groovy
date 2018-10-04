@@ -43,8 +43,8 @@ def route = "http://$route_out"
 
 // parameters
 def slackCredentialParameters = [
-  description:  'Slack Jenkins integration token',
-  id:           "slack-token",
+  description:  'Slack',
+  id:           'slack-token',
   secret:       "$token_out"
 ]
  
@@ -55,8 +55,8 @@ def slackParameters = [
  // slackRoom:                '#jenkins',
   slackSendAs:              'Jenkins',
   slackTeamDomain:          team_domain_out,
-  slackToken:               'slack-token',
-  slackTokenCredentialId:   'slack-token'
+  slackToken:               token_out,
+  //slackTokenCredentialId:   'slack-token'
 ]
  
 // get Jenkins instance
