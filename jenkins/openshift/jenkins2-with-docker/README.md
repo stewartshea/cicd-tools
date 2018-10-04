@@ -1,5 +1,16 @@
 # Purpose
-Host a collection of cicd tools, scripts, guides, and other goodies. 
+Extend the openshift jenkins image to inlclude docker and custom configs. 
+Intended to be run in the `openshift`namespace and replaces the existing 
+image stored inside the cluster. 
+
+```
+oc project openshift
+oc new-build https://github.com/stewartshea/cicd-tools \
+    --context-dir=jenkins/openshift/jenkins2-with-docker \
+    --to=jenkins:latest \
+    --name=jenkins
+```
+
 
 
 
