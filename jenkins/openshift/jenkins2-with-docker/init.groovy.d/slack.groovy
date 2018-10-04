@@ -42,11 +42,11 @@ oc_route.waitForOrKill(1000)
 def route = "http://$route_out" 
 
 // parameters
-def slackCredentialParameters = [
-  description:  'Slack',
-  id:           'slack-token',
-  secret:       "$token_out"
-]
+// def slackCredentialParameters = [
+//   description:  'Slack',
+//   id:           'slack-token',
+//   secret:       "$token_out"
+// ]
  
 def slackParameters = [
   slackBaseUrl:             base_url_out,
@@ -56,7 +56,7 @@ def slackParameters = [
   slackSendAs:              'Jenkins',
   slackTeamDomain:          team_domain_out,
   slackToken:               token_out,
-  //slackTokenCredentialId:   'slack-token'
+  //slackTokenCredentialId:   ''
 ]
  
 // get Jenkins instance
@@ -72,19 +72,19 @@ def store = jenkins.getExtensionList('com.cloudbees.plugins.credentials.SystemCr
 def slack = jenkins.getExtensionList(jenkins.plugins.slack.SlackNotifier.DescriptorImpl.class)[0]
  
 // define secret
-def secretText = new StringCredentialsImpl(
-  CredentialsScope.GLOBAL,
-  slackCredentialParameters.id,
-  slackCredentialParameters.description,
-  Secret.fromString(slackCredentialParameters.secret)
-)
+// def secretText = new StringCredentialsImpl(
+//   CredentialsScope.GLOBAL,
+//   slackCredentialParameters.id,
+//   slackCredentialParameters.description,
+//   Secret.fromString(slackCredentialParameters.secret)
+// )
  
 // define form and request
 JSONObject formData = ['slack': ['tokenCredentialId': 'slack-token']] as JSONObject
 def request = [getParameter: { name -> slackParameters[name] }] as org.kohsuke.stapler.StaplerRequest
  
 // add credential to Jenkins credentials store
-store.addCredentials(domain, secretText)
+//store.addCredentials(domain, secretText)
  
 // add Slack configuration to Jenkins
 slack.configure(request, formData)
