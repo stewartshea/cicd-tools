@@ -1,4 +1,3 @@
-
 import hudson.model.*
 import jenkins.model.*
 import com.cloudbees.plugins.credentials.CredentialsScope
@@ -11,6 +10,7 @@ def token = "env".execute() | "grep SLACK_token".execute() | ['awk', '-F', "=", 
 token.consumeProcessOutput(token_out, token_err)
 token.waitForOrKill(1000)
 token_out=token_out.toString()
+
 
 def base_url_out = new StringBuffer(), base_url_err = new StringBuffer()
 def base_url = "env".execute() | "grep SLACK_base_url".execute() | ['awk', '-F', "=",  '{ print $2 }'].execute()
@@ -25,9 +25,11 @@ team_domain.waitForOrKill(1000)
 team_domain_out=team_domain_out.toString()
 
 
+
 jenkins = jenkins.model.Jenkins.getInstance()
 def slack = jenkins.getDescriptorByType(jenkins.plugins.slack.SlackNotifier.DescriptorImpl)
 slack.teamDomain = "$team_domain_out"
 slack.token = "$token_out"
-slack.sendAs = "Jenkins"
+slack.sendAs = "jenkins"
 slack.save()
+jenkins.save()
