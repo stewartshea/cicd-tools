@@ -23,10 +23,7 @@ pipeline {
     //   ansiblePlaybook inventory: '${WORKSPACE}/ansible/inventory/jenkins/hosts', playbook: '${WORKSPACE}/ansible/configure.yml', sudoUser: null
     //   }
     // }
-   stage ('Build Complete'){
-   steps{
-   }
-   }
+
 
   }
 }
