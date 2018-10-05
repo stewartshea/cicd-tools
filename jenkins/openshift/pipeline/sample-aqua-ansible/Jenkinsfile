@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('Git Clone') {
       steps {
-        sh '''#!/bin/bash
+        sh '''set +x
         git clone https://$CLIENT_ID@github.com/ArctiqTeam/e-containersecurity.git'''
       }
     }
