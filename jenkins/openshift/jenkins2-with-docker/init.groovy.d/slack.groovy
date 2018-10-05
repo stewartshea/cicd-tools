@@ -32,4 +32,3 @@ slack.teamDomain = "$team_domain_out"
 slack.token = "$token_out"
 slack.sendAs = "jenkins"
 slack.save()
-jenkins.save()
