@@ -3,11 +3,8 @@ pipeline {
   stages {
     stage('Git Clone') {
       steps {
-        sh '''
-          #!/bin/bash
-          git clone https://$CLIENT_ID@github.com/ArctiqTeam/e-containersecurity.git
-          '''
-          }
+        sh '''#!/bin/bash
+        git clone https://$CLIENT_ID@github.com/ArctiqTeam/e-containersecurity.git'''
       }
     stage ('Clean up local env'){
       steps {
