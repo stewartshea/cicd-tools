@@ -4,8 +4,9 @@ pipeline {
     stage('Git Clone') {
       steps {
         sh '''
-          git clone https://$CLIENT_ID@github.com/ArctiqTeam/e-containersecurity.git'''
-
+          #!/bin/bash
+          git clone https://$CLIENT_ID@github.com/ArctiqTeam/e-containersecurity.git
+          '''
           }
       }
     stage ('Clean up local env'){
