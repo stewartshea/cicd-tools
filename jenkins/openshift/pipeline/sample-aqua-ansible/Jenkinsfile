@@ -14,7 +14,7 @@ pipeline {
     }
     stage ('Run Playbook'){
       steps {
-      ansiblePlaybook playbook: '${WORKSPACE}/e-containersecurity/modules/azure-origin-3.9/ansible/aqua-config.yml', sudoUser: null
+      ansiblePlaybook playbook: '${WORKSPACE}/modules/azure-origin-3.9/ansible/aqua-config.yml', sudoUser: null
       }
     }
     // stage ('Configure OSPF'){
