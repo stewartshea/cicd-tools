@@ -3,8 +3,7 @@ pipeline {
   stages {
     stage('Git Clone') {
       steps {
-        sh '''set +x
-        git clone https://$CLIENT_ID@github.com/ArctiqTeam/e-containersecurity.git'''
+          git credentialsId: 'github_auth', url: 'https://github.com/ArctiqTeam/e-containersecurity.git'
       }
     }
     stage ('Clean up local env'){
