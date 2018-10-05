@@ -29,5 +29,5 @@ jenkins = jenkins.model.Jenkins.getInstance()
 def slack = jenkins.getDescriptorByType(jenkins.plugins.slack.SlackNotifier.DescriptorImpl)
 slack.teamDomain = "$team_domain_out"
 slack.token = "$token_out"
-slack.sendAs = "CHEF CI"
+slack.sendAs = "Jenkins"
 slack.save()
