@@ -1,14 +1,28 @@
 pipeline {
-  agent any
-  stages {
-    stage('Stage 1') {
-    }
-    stage ('Stage 2'){
-    }
-    stage ('Stage 3'){
-    }
-    stage ('Wrap it up'){
+  node('nodejs')
+  {
+    stages {
+      stage('Stage 1') {
+        steps {
+          sh "echo Stage 1"
+        }
+      }
+      stage ('Stage 2'){
+        steps {
+          sh "echo Stage 1"
+        }
+      }
+      stage ('Stage 3'){
+        steps {
+          sh "echo Stage 1"
+        }
+      }
+      stage ('Wrap it up'){
+        steps {
+          sh "echo Stage 1"
+        }
 
+      }
     }
   }
 }
