@@ -1,5 +1,4 @@
-pipeline {
-  agent any
+
   node('nodejs')
   {
     stages {
@@ -26,4 +25,3 @@ pipeline {
       }
     }
   }
-}
